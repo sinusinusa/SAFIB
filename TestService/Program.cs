@@ -4,13 +4,27 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using TestService.Configuration;
 
-var builder = WebApplication.CreateBuilder(args);
+// Build application
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Set up the configuration
+builder.Services.Configure<DatabaseConfiguration>(
+	builder.Configuration.GetSection("DatabaseConfiguration"));
+
+// Set up the Postgres connection
+builder.Services.AddDbContext<UnitContext>((sc, options) =>
+{
+	var databaseConfigurationOptions = sc.GetService<IOptions<DatabaseConfiguration>>();
+	var connectionString = databaseConfigurationOptions?.Value.ConnectionString;
+	if (string.IsNullOrEmpty(connectionString))
+		throw new System.Exception("DatabaseConfigurationOptions is null");
+	options.UseNpgsql(connectionString);
+});
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
