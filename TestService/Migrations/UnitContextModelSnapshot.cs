@@ -38,10 +38,10 @@ namespace TestService.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MainId");
-
-                    b.HasIndex("Name")
+                    b.HasIndex("Id")
                         .IsUnique();
+
+                    b.HasIndex("MainId");
 
                     b.ToTable("Units");
                 });

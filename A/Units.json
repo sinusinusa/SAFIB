@@ -1,0 +1,24 @@
+{
+  "units": [
+    {
+      "Id": 1,
+      "MainId": 0,
+      "Status": "Active"
+    }
+    {
+      "Id": 2,
+      "MainId": 1,
+      "Status": "Blocked"
+    }
+    {
+      "Id": 3,
+      "MainId": 0,
+      "Status": "Active"
+    }
+    {
+      "Id": 4,
+      "MainId": 1,
+      "Status": "Blocked"
+    }
+  ]
+}

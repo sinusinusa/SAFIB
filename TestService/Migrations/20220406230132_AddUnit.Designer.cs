@@ -11,7 +11,7 @@ using TestService.DataAccess;
 namespace TestService.Migrations
 {
     [DbContext(typeof(UnitContext))]
-    [Migration("20220406225333_AddUnit")]
+    [Migration("20220406230132_AddUnit")]
     partial class AddUnit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,10 +40,10 @@ namespace TestService.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MainId");
-
-                    b.HasIndex("Name")
+                    b.HasIndex("Id")
                         .IsUnique();
+
+                    b.HasIndex("MainId");
 
                     b.ToTable("Units");
                 });

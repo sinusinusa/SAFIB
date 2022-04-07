@@ -29,15 +29,15 @@ namespace TestService.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Units_Id",
+                table: "Units",
+                column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Units_MainId",
                 table: "Units",
                 column: "MainId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Units_Name",
-                table: "Units",
-                column: "Name",
-                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

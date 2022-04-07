@@ -21,7 +21,7 @@ namespace TestService.DataAccess
                 .HasForeignKey(u => u.MainId)
                 .IsRequired(false);
             modelBuilder.Entity<Unit>()
-                .HasIndex(u => u.Name)
+                .HasIndex(u => u.Id)
                 .IsUnique();
             modelBuilder.Entity<Unit>()
                 .Property(u => u.Name)
