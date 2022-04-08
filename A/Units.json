@@ -1,23 +1,19 @@
 {
   "Units": [
     {
-      "Id": 1,
-      "MainId": 0,
+      "Name":  "Coca-Cola",
       "Status": "Active"
     },
     {
-      "Id": 2,
-      "MainId": 1,
+      "Name":  "Chernogolovka",
       "Status": "Blocked"
     },
     {
-      "Id": 3,
-      "MainId": 0,
-      "Status": "Active"
+      "Name": "Samsung",
+      "Status": "Blocked"
     },
     {
-      "Id": 4,
-      "MainId": 1,
+      "Name": "Pepsi",
       "Status": "Blocked"
     }
   ]

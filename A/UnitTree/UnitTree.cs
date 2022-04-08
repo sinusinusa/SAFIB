@@ -4,9 +4,9 @@ namespace A.UnitTree
 {
     public class UnitTree
     {
-        List<Unit> Units = new List<Unit>();
+        List<FileUnit> Units = new List<FileUnit>();
         
-        public UnitTree (List<Unit> units)
+        public UnitTree (List<FileUnit> units)
         {
             Units = units;
         }

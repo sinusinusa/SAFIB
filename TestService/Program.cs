@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using TestService.Configuration;
+using System.Text.Json.Serialization;
 
 // Build application
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -22,6 +23,8 @@ builder.Services.AddDbContext<UnitContext>((sc, options) =>
 		throw new System.Exception("DatabaseConfigurationOptions is null");
 	options.UseNpgsql(connectionString);
 });
+builder.Services.AddControllers().AddJsonOptions(x =>
+				x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddControllers();
 

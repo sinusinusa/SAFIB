@@ -17,10 +17,21 @@ namespace TestService.Controllers
         {
             _unitContext = unitContext;
         }
-
+        [HttpPost]
+        public async Task<ActionResult<Unit>> CreateUnit(Unit unit)
+        {
+            Unit? unitInDatabase = await _unitContext.Units
+                .FirstOrDefaultAsync(u => u.Id == unit.Id);
+            if (unitInDatabase != null) { 
+                Conflict($"Unit with id '{unit.Id}' is already exist"); 
+            }
+            _unitContext.Add(unit);
+            await _unitContext.SaveChangesAsync();
+            return Ok();
+        }
         public async Task<List<Unit>> GetAllAsync()
         {
-            return await _unitContext.Units.ToListAsync();
+            return await _unitContext.Units.Include(x => x.MainUnit).ToListAsync();
         }
 
     }
