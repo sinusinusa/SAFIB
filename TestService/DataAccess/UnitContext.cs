@@ -7,7 +7,7 @@ namespace TestService.DataAccess
     public class UnitContext: DbContext
     {
         public UnitContext(DbContextOptions options) : base(options) { }
-        public DbSet<Unit>? Units { get; set; }
+        public DbSet<Unit>? Units { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -16,8 +16,8 @@ namespace TestService.DataAccess
         private static void ConfigureUnit(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Unit>()
-                .HasOne(x => x.MainUnit)
-                .WithMany(u => u.SubUnits)
+                .HasMany(x => x.SubUnits)
+                .WithOne(u => u.MainUnit)
                 .HasForeignKey(u => u.MainId)
                 .IsRequired(false);
             modelBuilder.Entity<Unit>()
@@ -26,6 +26,9 @@ namespace TestService.DataAccess
             modelBuilder.Entity<Unit>()
                 .Property(u => u.Name)
                 .IsRequired();
+            modelBuilder.Entity<Unit>()
+                .Property(u => u.MainId)
+                .IsRequired(false);
         }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace TestService.Controllers
 {
@@ -16,5 +17,11 @@ namespace TestService.Controllers
         {
             _unitContext = unitContext;
         }
+
+        public async Task<List<Unit>> GetAllAsync()
+        {
+            return await _unitContext.Units.ToListAsync();
+        }
+
     }
 }

@@ -3,9 +3,9 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace TestService.Migrations
+namespace B.Migrations
 {
-    public partial class AddUnit : Migration
+    public partial class addUnit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,7 +16,7 @@ namespace TestService.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    MainId = table.Column<int>(type: "integer", nullable: false)
+                    MainId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
