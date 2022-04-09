@@ -1,5 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using A.UnitTree.RequestWrapper;
+using Newtonsoft.Json;
 using System.Net;
+using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using TestService.DataAccess.Entity;
@@ -11,7 +13,10 @@ namespace A.UnitTree
         public List<FileUnit> Units = new List<FileUnit>();
         public List<UnitStatus> Tree = new List<UnitStatus>();
         private String UrlConnection;
+        public void SynchronizeDB()
+        {
 
+        }
         public void GetServerUnits()
         {
             string rt;
@@ -21,7 +26,7 @@ namespace A.UnitTree
             StreamReader reader = new StreamReader(dataStream);
             rt = reader.ReadToEnd();
             reader.Close();
-            response.Close();
+          //  response.Close();
             Tree = JsonConvert.DeserializeObject<List<UnitStatus>>(rt);
             foreach(UnitStatus i in Tree)
             {
@@ -29,8 +34,18 @@ namespace A.UnitTree
                 if(Same != null)
                 {
                     i.Status = Same.Status;
+                    if(i.MainId != Same.MainId)
+                    {
+                       string jsonString = "{\"MainId\":"+Same.MainId+"}";
+                       
+                    }
                 }
             }
+        }
+        public void Serialize(Stream output, object input)
+        {
+            var ser = new DataContractSerializer(input.GetType());
+            ser.WriteObject(output, input);
         }
 
         private void getUrl()

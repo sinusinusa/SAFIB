@@ -17,6 +17,23 @@ namespace TestService.Controllers
         {
             _unitContext = unitContext;
         }
+        [HttpPut]
+        public async Task<ActionResult> ChangeMainId(int id, int mainId)
+        {
+            Unit? unitInDatabase = await _unitContext.Units
+                 .FirstOrDefaultAsync(u => u.Id == id);
+            if(unitInDatabase != null)
+            {
+                unitInDatabase.MainId = mainId;
+                _unitContext.Update(unitInDatabase);
+            }
+            else
+            {
+                Conflict($"Unit with id '{id}' isn't exist");
+            }
+            await _unitContext.SaveChangesAsync();
+            return Ok();
+        }
         [HttpPost]
         public async Task<ActionResult<Unit>> CreateUnit(Unit unit)
         {

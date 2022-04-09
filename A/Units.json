@@ -2,23 +2,28 @@
   "Units": [
     {
       "Id":  1,
-      "Status": "Active"
+      "Status": "Active",
+      "MainId":  null
     },
     {
-      "Id":  2,
-      "Status": "Blocked"
+      "Id": 2,
+      "Status": "Blocked",
+      "MainId": 1
     },
     {
       "Id": 3,
-      "Status": "Blocked"
+      "Status": "Blocked",
+      "MainId": null
     },
     {
       "Id": 4,
-      "Status": "Blocked"
+      "Status": "Blocked",
+      "MainId": null
     },
     {
       "Id": 6,
-      "Status": "Active"
+      "Status": "Active",
+      "MainId": null
     }
   ]
 }
