@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 UnitTree u = new ListFileUnitCreate().Create();
 
 // Add services to the container.
+builder.Services.AddHttpClient();
 
 builder.Services.AddControllers();
 

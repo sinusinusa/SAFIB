@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System;
 
 namespace TestService.Controllers
 {
@@ -17,23 +19,11 @@ namespace TestService.Controllers
         {
             _unitContext = unitContext;
         }
-        [HttpPut]
-        public async Task<ActionResult> ChangeMainId(int id, int mainId)
+        public async Task<List<Unit>> GetAllAsync()
         {
-            Unit? unitInDatabase = await _unitContext.Units
-                 .FirstOrDefaultAsync(u => u.Id == id);
-            if(unitInDatabase != null)
-            {
-                unitInDatabase.MainId = mainId;
-                _unitContext.Update(unitInDatabase);
-            }
-            else
-            {
-                Conflict($"Unit with id '{id}' isn't exist");
-            }
-            await _unitContext.SaveChangesAsync();
-            return Ok();
+            return await _unitContext.Units.Include(x => x.MainUnit).ToListAsync();
         }
+
         [HttpPost]
         public async Task<ActionResult<Unit>> CreateUnit(Unit unit)
         {
@@ -46,10 +36,7 @@ namespace TestService.Controllers
             await _unitContext.SaveChangesAsync();
             return Ok();
         }
-        public async Task<List<Unit>> GetAllAsync()
-        {
-            return await _unitContext.Units.Include(x => x.MainUnit).ToListAsync();
-        }
+
 
     }
 }

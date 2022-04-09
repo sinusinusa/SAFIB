@@ -10,5 +10,6 @@ namespace TestService.DataAccess.Entity
 
         public Unit? MainUnit { get; set; }
         public List<Unit> SubUnits { get; set; } = new();
+
     }
 }

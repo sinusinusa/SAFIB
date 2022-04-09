@@ -1,7 +1,9 @@
 ﻿using A.UnitTree.RequestWrapper;
+using B.Dto;
 using Newtonsoft.Json;
 using System.Net;
 using System.Runtime.Serialization;
+using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using TestService.DataAccess.Entity;
@@ -15,33 +17,59 @@ namespace A.UnitTree
         private String UrlConnection;
         public void SynchronizeDB()
         {
-
+            GetServerUnits();
+            AddMissedUnits();
         }
-        public void GetServerUnits()
+        private async void AddMissedUnits()
+        {
+            //WebRequest request = WebRequest.Create(UrlConnection+"/unit");
+           // request.Method = "POST";
+            foreach (FileUnit unit in Units)
+            {
+                UnitDal toDb = new UnitDal();
+                toDb.Id = unit.Id;
+                toDb.MainId = unit.MainId;
+                toDb.Name = "Unnamed";
+                string json = JsonConvert.SerializeObject(toDb);
+                await PostRequestAsync(UrlConnection+"/unit", json);
+            }
+        }
+        private async Task PostRequestAsync(string url, string json)
+        {
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            using var client = new HttpClient();
+            var response = await client.PostAsync(url, data);
+            string result = response.Content.ReadAsStringAsync().Result;
+        }
+        private void GetServerUnits()
         {
             string rt;
-            WebRequest request = WebRequest.Create(UrlConnection);
+            WebRequest request = WebRequest.Create(UrlConnection + "/unit");
             WebResponse response = request.GetResponse();
             Stream dataStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(dataStream);
             rt = reader.ReadToEnd();
             reader.Close();
-          //  response.Close();
+            response.Close();
             Tree = JsonConvert.DeserializeObject<List<UnitStatus>>(rt);
-            foreach(UnitStatus i in Tree)
+            foreach (UnitStatus i in Tree)
             {
                 FileUnit? Same = Units.FirstOrDefault(x => x.Id == i.Id);
-                if(Same != null)
+                if (Same != null)
                 {
                     i.Status = Same.Status;
-                    if(i.MainId != Same.MainId)
+                    if (i.MainId != Same.MainId && Tree.FirstOrDefault(x => x.Id == Same.MainId) != null)
                     {
-                       string jsonString = "{\"MainId\":"+Same.MainId+"}";
-                       
+                        string Req = UrlConnection + $"/sync?id={i.Id}&mainid={Same.MainId}";
+                        request = WebRequest.Create(Req);
+                        response = request.GetResponse();
+                        response.Close();
                     }
                 }
+                Units.Remove(Units.FirstOrDefault(x => x.Id == i.Id));
             }
-        }
+        } 
+
         public void Serialize(Stream output, object input)
         {
             var ser = new DataContractSerializer(input.GetType());
@@ -64,13 +92,13 @@ namespace A.UnitTree
             string pattern = @"\w+(\.\w+)*";
             Regex reg = new Regex(pattern);
             MatchCollection matched = reg.Matches(Urls);
-            UrlConnection = matched[0].Value + "://" + matched[1].Value + ":" + matched[2].Value + "/unit";
+            UrlConnection = matched[0].Value + "://" + matched[1].Value + ":" + matched[2].Value;
         }
         public UnitTree (List<FileUnit> units)
         {
             Units = units;
             getUrl();
-            GetServerUnits();
+            SynchronizeDB();
         }
     }
 }
