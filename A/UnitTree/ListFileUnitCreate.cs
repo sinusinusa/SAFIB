@@ -1,8 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿//using System.Text.Json;
+using Newtonsoft.Json;
+
 
 namespace A.UnitTree
 {
-    public class TreeCreate
+    public class ListFileUnitCreate
     {
         public UnitTree Create()
         {
@@ -11,6 +13,7 @@ namespace A.UnitTree
             {
                 JsonFromFile = reader.ReadToEnd();
             }
+           // UnitTree unitTree = JsonSerializer.Deserialize<UnitTree>(JsonFromFile);
             var unitTree = JsonConvert.DeserializeObject<UnitTree>(JsonFromFile);
             return unitTree;
         }
