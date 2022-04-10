@@ -1,9 +1,9 @@
 {
   "Units": [
     {
-      "Id":  1,
+      "Id": 1,
       "Status": "Active",
-      "MainId":  null
+      "MainId": null
     },
     {
       "Id": 2,

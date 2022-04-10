@@ -12,9 +12,11 @@ namespace A.UnitTree
 {
     public class UnitTreeSync
     {
+        public static UnitTreeSync Instance;
         public List<FileUnit> Units = new List<FileUnit>();
         public static List<UnitStatus> Tree = new List<UnitStatus>();
         private String UrlConnection;
+
         public void SynchronizeDB()
         {
             GetServerUnits();

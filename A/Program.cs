@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-UnitTreeSync UTree = new ListFileUnitCreate().Create();
+UnitTreeSync UTree = ListFileUnitCreate.Create();
 
 // Add services to the container.
 builder.Services.AddHttpClient();

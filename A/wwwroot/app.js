@@ -1,37 +1,38 @@
-﻿var filter = document.forms[0].elements[0].value;
-const output = document.querySelector('.output');
-const output1 = document.createElement('div');
-const ul = document.createElement('ul');
-output.append(output1);
-output.append(ul);
+﻿const result = document.getElementById('results');
 const url = 'https://localhost:7089/Status';
+const urlSync = 'https://localhost:7089/Synchronize';
+
 window.addEventListener('DOMContentLoaded', () => {
-    output1.textContent = 'Lists of Companies';
     loadData();
 })
 
 function loadData() {
     fetch(url).then(rep => rep.json())
         .then((data) => {
+            var list = [];
+            data.forEach(x => {
+                list.push(x.name+':'+x.status);
+            });
             console.log(data);
-            addtoPage(data);
+            renderList(list, result);
+            document.getElementById('search').addEventListener('input', e => renderList(filter(e.target.value, list), result));
+
         })
+}
+function filter(val, list) {
+   // console.time('test')
+    return list.filter(i => (~i.indexOf(val)))
+};
+function renderList(_list = [], el = document.body) {
+    el.innerHTML = '';
+    _list.forEach(i => {
+        let new_el = document.createElement('li')
+        new_el.innerHTML = i
+        el.appendChild(new_el)
+    })
+}
+function sync() {
+    fetch(urlSync);
+    location.reload();
 }
 
-function addtoPage(arr) {
-    arr.forEach((el) => {
-        console.log(el);
-        const li = document.createElement('li');
-        li.textContent = el.name + ' : ' + el.status;
-        if (el.status == 'Active') {
-            li.classList.add('active');
-        } else {
-            li.classList.add('inactive');
-        }
-        ul.append(li);
-        li.addEventListener('click', (e) => {
-            li.classList.toggle('active');
-            li.classList.toggle('inactive');
-        })
-    });
-}

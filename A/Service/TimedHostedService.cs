@@ -30,7 +30,7 @@ namespace A.Service
             var count = Interlocked.Increment(ref executionCount);
             ListSwitcher.DoSwitch(UnitTreeSync.Tree);
             _logger.LogInformation(
-                "Timed Hosted Service is working. Count: {Count}", count);
+                "Statuses uploaded. Count: {Count}", count);
            // _logger.LogInformation(UnitTreeSync.Tree[0].Status);
         }
 
