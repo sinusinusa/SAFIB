@@ -10,10 +10,10 @@ using TestService.DataAccess.Entity;
 
 namespace A.UnitTree
 {
-    public class UnitTree
+    public class UnitTreeSync
     {
         public List<FileUnit> Units = new List<FileUnit>();
-        public List<UnitStatus> Tree = new List<UnitStatus>();
+        public static List<UnitStatus> Tree = new List<UnitStatus>();
         private String UrlConnection;
         public void SynchronizeDB()
         {
@@ -26,6 +26,11 @@ namespace A.UnitTree
            // request.Method = "POST";
             foreach (FileUnit unit in Units)
             {
+                UnitStatus toTree = new UnitStatus();
+                toTree.Id = unit.Id;
+                toTree.MainId = unit.MainId;
+                toTree.Name = "Unnamed";
+                Tree.Add(toTree);
                 UnitDal toDb = new UnitDal();
                 toDb.Id = unit.Id;
                 toDb.MainId = unit.MainId;
@@ -94,7 +99,7 @@ namespace A.UnitTree
             MatchCollection matched = reg.Matches(Urls);
             UrlConnection = matched[0].Value + "://" + matched[1].Value + ":" + matched[2].Value;
         }
-        public UnitTree (List<FileUnit> units)
+        public UnitTreeSync (List<FileUnit> units)
         {
             Units = units;
             getUrl();

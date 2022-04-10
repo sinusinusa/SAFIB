@@ -6,7 +6,7 @@ namespace A.UnitTree
 {
     public class ListFileUnitCreate
     {
-        public UnitTree Create()
+        public UnitTreeSync Create()
         {
             string JsonFromFile;
             using (var reader = new StreamReader("C:/Users/drora/source/repos/serviceB/A/Units.json"))
@@ -14,7 +14,7 @@ namespace A.UnitTree
                 JsonFromFile = reader.ReadToEnd();
             }
            // UnitTree unitTree = JsonSerializer.Deserialize<UnitTree>(JsonFromFile);
-            var unitTree = JsonConvert.DeserializeObject<UnitTree>(JsonFromFile);
+            var unitTree = JsonConvert.DeserializeObject<UnitTreeSync>(JsonFromFile);
             return unitTree;
         }
     }

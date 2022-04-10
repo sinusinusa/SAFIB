@@ -1,16 +1,23 @@
 using A.Service;
 using A.UnitTree;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-UnitTree u = new ListFileUnitCreate().Create();
+UnitTreeSync UTree = new ListFileUnitCreate().Create();
+
 
 // Add services to the container.
 builder.Services.AddHttpClient();
 
 builder.Services.AddControllers();
 
+//builder.Services.AddSingleton<UnitTreeSync>();
+
 builder.Services.AddHostedService<TimedHostedService>();
+
+builder.Services.AddControllers().AddJsonOptions(x =>
+				x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 var app = builder.Build();
 
