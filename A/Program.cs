@@ -6,7 +6,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 UnitTreeSync UTree = new ListFileUnitCreate().Create();
 
-
 // Add services to the container.
 builder.Services.AddHttpClient();
 
@@ -20,6 +19,9 @@ builder.Services.AddControllers().AddJsonOptions(x =>
 				x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 var app = builder.Build();
+
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 // Configure the HTTP request pipeline.
 

@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="wwwroot\app.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\index.html" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 	<ItemGroup>
@@ -19,5 +27,11 @@
   <ItemGroup>
     <ProjectReference Include="..\TestService\B.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\app.js" />
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>
